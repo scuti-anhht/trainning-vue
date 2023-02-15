@@ -1,15 +1,17 @@
-<script lang="ts">
+<script lang="ts" setup>
 import { reactive } from "vue";
+import { axiosInstance } from "@/services";
+const payloadLogin = reactive({
+  username: "",
+  password: "",
+});
 
-export default {
-  setup() {
-    const payloadLogin = reactive({
-      username: "kminchelle",
-      password: "0lelplR",
-    });
-
-    const handlerLogin = async () => {};
-  },
+const handlerLogin = async () => {
+  const data = await axiosInstance.post(
+    "/auth/login",
+    JSON.stringify(payloadLogin)
+  );
+  console.log("zooo", data, payloadLogin);
 };
 </script>
 
@@ -18,6 +20,7 @@ export default {
     <div class="container-login">
       <div class="wrap-login">
         <form class="login-form validate-form p-l-55 p-r-55 p-t-178">
+          <!-- @submit.prevent="handlerLogin" -->
           <div class="login-form-title"><span> Sign In </span></div>
           <div
             class="wrap-input validate-input m-b-16"
@@ -26,8 +29,8 @@ export default {
             <input
               class="input"
               type="text"
-              name="username"
               placeholder="Username"
+              v-model="payloadLogin.username"
             />
             <span class="focus-input"></span>
           </div>
@@ -38,22 +41,15 @@ export default {
             <input
               class="input"
               type="password"
-              name="pass"
-              placeholder="Password"
+              v-model="payloadLogin.password"
             />
             <span class="focus-input"></span>
           </div>
-          <!-- <div class="text-right p-t-13 p-b-23">
-            <span class="txt1"> Forgot </span>
-            <a href="#" class="txt2"> Username / Password? </a>
-          </div> -->
           <div class="container-login-form-btn">
-            <button class="login-form-btn">Sign in</button>
+            <button class="login-form-btn" @click.prevent="handlerLogin()">
+              Sign in
+            </button>
           </div>
-          <!-- <div class="flex-col-c p-t-170 p-b-40">
-            <span class="txt1 p-b-9"> Don’t have an account? </span>
-            <a href="#" class="txt3"> Sign up now </a>
-          </div> -->
         </form>
       </div>
     </div>
