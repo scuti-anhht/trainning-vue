@@ -7,11 +7,12 @@ const payloadLogin = reactive({
 });
 
 const handlerLogin = async () => {
-  const data = await axiosInstance.post(
-    "/auth/login",
-    JSON.stringify(payloadLogin)
-  );
-  console.log("zooo", data, payloadLogin);
+  try {
+    const data = await axiosInstance.post("/auth/login", payloadLogin);
+    console.log("data", data);
+  } catch (error) {
+    console.log("er", error);
+  }
 };
 </script>
 
@@ -41,6 +42,7 @@ const handlerLogin = async () => {
             <input
               class="input"
               type="password"
+              placeholder="Password"
               v-model="payloadLogin.password"
             />
             <span class="focus-input"></span>
